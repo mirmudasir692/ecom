@@ -26,8 +26,8 @@ function Login(){
             "password":password
         }
         try{
-            const response = await Axios.post("https://mudasir12345.pythonanywhere.com/accounts/login/",data)
-           
+            const response = await Axios.post("http://127.0.0.1:8000/accounts/login/",data)
+            console.log(response.data)
             
         if(response.status === 200){
 
@@ -41,10 +41,10 @@ function Login(){
         }
         else if(response.status === 400)
         {
-         
+         alert("hii")
         }
         }catch(error){
-            
+            console.log("An error occured",error)
             if(error.response.status && error.response.status===404){
                 setError(true)
             }
@@ -60,10 +60,10 @@ function Login(){
       <form onSubmit={HandleSubmitForm} className="flex flex-col gap-10 justify-center">
         <div className="flex flex-col gap-3">
                
-                <input value={email} onChange={(e)=>setEmail(e.target.value)} className="w-96 mr-auto ml-auto bg-transparent text-white text-center outline-none pb-4 border-b" type="email" name="email" placeholder="Email" required />
+                <input value={email} onChange={(e)=>setEmail(e.target.value)} className="w-96 mr-auto ml-auto bg-transparent text-white text-center outline-none pb-4 border-b max-sm:w-72 rounded-lg" type="email" name="email" placeholder="Email" required />
            </div>
            <div className="flex flex-col gap-3">
-            <input value={password} onChange={(e)=>setPassword(e.target.value)} className="w-96 mr-auto ml-auto outline-none bg-transparent text-center text-white pb-4 border-b" type="password" name="password" id="password" placeholder="Password" required />
+            <input value={password} onChange={(e)=>setPassword(e.target.value)} className="w-96 mr-auto ml-auto outline-none bg-transparent text-center text-white pb-4 border-b  max-sm:w-72 rounded-lg" type="password" name="password" id="password" placeholder="Password" required />
            </div>
            <button type="submit" className="text-white bg-slate-800 w-32 mr-auto ml-auto px-5 py-3 rounded-2xl font-extrabold hover:bg-slate-500">Login</button>
            <div className="flex flex-col w-fit ml-auto mr-auto gap-2">
