@@ -27,7 +27,7 @@ function Login(){
         }
         try{
             const response = await Axios.post("https://mudasir12345.pythonanywhere.com/accounts/login/",data)
-            console.log(response.data)
+           
             
         if(response.status === 200){
 
@@ -41,10 +41,10 @@ function Login(){
         }
         else if(response.status === 400)
         {
-         alert("hii")
+         
         }
         }catch(error){
-            console.log("An error occured",error)
+            
             if(error.response.status && error.response.status===404){
                 setError(true)
             }
