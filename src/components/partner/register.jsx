@@ -2,6 +2,7 @@ import { useState } from "react"
 import AxiosInstance from "../../Axios/AxiosInstance"
 import Spinner from "../banners/spinner"
 import BannerComp from "../banners/success"
+import { useNavigate } from "react-router-dom"
 
 function Register(){
     /*
@@ -11,11 +12,11 @@ function Register(){
    const [name,setName] = useState("")
    const [email,setEmail] = useState("")
    const [mobile,setMobile] = useState("")
-   const [category,setCategory] = useState('General')
    const [logo,setLogo] = useState(null)
    const [loading,setLoading] = useState(false)
    const [success,setSuccess] = useState(false)
    const [error,setError] = useState(false)
+    const navigate = useNavigate()
 
    // select the Image file
    const SelectCompLogo =(e)=>{
@@ -37,14 +38,13 @@ function Register(){
     "company_name":name,
     "email":email,
     "mobile":mobile,
-    "category":category,
     'company_logo':logo
    }
 
    const RegisterPartner=async()=>{
-    setLoading(true)
     try{
-      const response = await AxiosInstance.post('partner/register/',data,{
+      setLoading(true)
+      const response = await AxiosInstance.post('products/register/',data,{
         headers:{
           "Content-Type":'multipart/form-data'
         }
@@ -56,6 +56,8 @@ function Register(){
         setMobile("")
         setCategory('General')
         setLogo(null)
+        navigate(-1)
+        
       }
       setLoading(false)
     }catch(error){
