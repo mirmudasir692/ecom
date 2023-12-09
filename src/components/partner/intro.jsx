@@ -5,7 +5,7 @@ function Intro(){
         <>
         <div className="flex mr-auto ml-auto flex-row mt-14 max-lg:flex-col border-2 border-slate-950 rounded-2xl">
             <div>
-                <img className=" w-3/4 max-lg:h-96 max-lg:w-full rounded-lg" src="/src/assets/img1.jpg" alt="" />
+                <img className=" w-3/4 max-lg:h-96 max-lg:w-full rounded-lg" src="https://ecomreact-mu.vercel.app/customer_service/assets/img1.jpg" alt="" />
             </div>
             <div>
                 <div className="p-5 font-light text-start text-xl flex flex-col gap-5 mt-20">
