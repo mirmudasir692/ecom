@@ -42,7 +42,7 @@ function SideBar() {
           <nav className="-mx-3 space-y-6 ">
             <div className="space-y-3 ">
               <Link
-                to="/cart_list"
+                to={isAuth ? "/cart_list" : "/login"}
                 className="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-50 hover:text-gray-700"
                 href="#"
               >
@@ -52,7 +52,7 @@ function SideBar() {
                 <span className="mx-2 text-sm font-medium">My Cart</span>
               </Link>
               <Link
-                to="/wishlist"
+                to={isAuth ? "/wishlist" : "/login"}
                 className="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
                 href="#"
               >
@@ -64,7 +64,7 @@ function SideBar() {
             </div>
             <div className="space-y-3 ">
               <Link
-                to="/orders"
+                to={isAuth ? "/orders" : "/login"}
                 className="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
               >
                 <span className="text-xs">
@@ -72,16 +72,14 @@ function SideBar() {
                 </span>
                 <span className="mx-2 text-sm font-medium">Orders</span>
               </Link>
-              <Link
+            {isAuth &&   <Link
                 to="/profile"
                 className="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
                 href="#"
               >
-                <span>
-                  <i className="fa-solid fa-user"></i>
-                </span>
+               <span><i className="fa-solid fa-user"></i></span>
                 <span className="mx-2 text-sm font-medium">My Profile</span>
-              </Link>
+              </Link>}
             </div>
             <div className="space-y-3 ">
               {isAuth ? (
@@ -111,6 +109,8 @@ function SideBar() {
                   </Link>
                 )
               ) : null}
+
+             
             </div>
           </nav>
         </div>
