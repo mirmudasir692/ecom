@@ -61,7 +61,7 @@ function Products(){
         
         <>
         <div>
-        <div className="grid grid-cols-4 mt-16 gap-5 grid-rows-4 max-md:flex max-md:flex-col">
+        <div className="grid grid-cols-4 mt-16 gap-28 grid-rows-4 max-md:flex max-md:flex-col">
        {
             products.map((product)=>(
                 <div key={product.id}>
