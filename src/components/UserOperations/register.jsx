@@ -35,7 +35,7 @@ function Register(){
         }
         try{
             setLoading(true)
-            const response = await Axios.post("http://127.0.0.1:8000/accounts/register/",data)
+            const response = await Axios.post("https://mudasir12345.pythonanywhere.com/accounts/register/",data)
             console.log(response)
             setLoading(false)
             if(response.status === 200){
