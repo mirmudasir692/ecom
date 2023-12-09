@@ -7,6 +7,7 @@ import Pagination from "./pagination";
 
 function Products(){
     const category = useParams().category_id
+    console.log("this is category ", category)
     const [products,setProducts] = useState([])
     const [pages,setPages] = useState(null)
     const [hasNextBtn,setHasNextBtn] = useState(true)
@@ -36,6 +37,7 @@ function Products(){
             console.log("an error occurred",error)
         }
         if(data){
+            console.log(data)
             setHasNextBtn(data.products.hasNext)
             setHasPrevBtn(data.products.hasPrevious)
             setProducts(data.products.products)
@@ -61,7 +63,7 @@ function Products(){
         
         <>
         <div>
-        <div className="grid grid-cols-4 mt-16 gap-5 grid-rows-4 max-md:flex max-md:flex-col">
+        <div className="grid grid-cols-4 mt-16 gap-28 grid-rows-4 max-md:flex max-md:flex-col">
        {
             products.map((product)=>(
                 <div key={product.id}>

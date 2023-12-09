@@ -2,6 +2,11 @@ import { useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
 import { GET_USER_PROFILE } from "../../api/user/query";
 import UpdateUser from "../../api/user/user";
+import Spinner from "../banners/spinner";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { isAuthenticated, logout } from "../../features/Auth/AuthSlice";
+
 
 const UserProfile = () => {
   const [user, setUser] = useState("");
@@ -9,41 +14,65 @@ const UserProfile = () => {
 
   const [name, setName] = useState("");
   const [mobile, setMobile] = useState("");
-  const [address, setAddress] = useState("");
   const [email, setEmail] = useState("");
-  const [gender,setGender] = useState("")
-  const [alt_mobile,setAlt_mobile] = useState("")
-  const [success,setSuccess] = useState(false)
+  const [gender, setGender] = useState("");
+  const [alt_mobile, setAlt_mobile] = useState("");
+  const [success, setSuccess] = useState(false);
+  const [uploading, setUploading] = useState(false);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { loading, error, data } = useQuery(GET_USER_PROFILE);
+
+  const HandleLogout = () => {
+    dispatch(logout());
+    navigate("/");
+  };
+
   useEffect(() => {
-    if (loading) {
-      console.log("data is being fetched");
-    }
     if (data) {
-      console.log("this is user data", data.getUserProfile);
       setUser(data.getUserProfile);
-      const {Name,email,country,state,city,mobile,gender, alternativeMobile} = data.getUserProfile
-      setName(Name)
-      setEmail(email)
-      setMobile(mobile)
-      setGender(gender)
-      setAlt_mobile(alternativeMobile)
+      const {
+        Name,
+        email,
+        country,
+        state,
+        city,
+        mobile,
+        gender,
+        alternativeMobile,
+      } = data.getUserProfile;
+      setName(Name);
+      setEmail(email);
+      setMobile(mobile);
+      setGender(gender);
+      setAlt_mobile(alternativeMobile);
     }
     if (error) {
       console.log("an error occured", error);
     }
   }, [loading, data, error]);
 
-    const HandleUserUpdate = async()=>{
-        const response = await UpdateUser(user.id, name,gender,mobile,email,alt_mobile)
-        if(response === 200){
-            setSuccess(true)
-        }
+  const HandleUserUpdate = async () => {
+    setUploading(true);
+    const response = await UpdateUser(
+      user.id,
+      name,
+      gender,
+      mobile,
+      email,
+      alt_mobile
+    );
+    if (response === 200) {
+      setModify(false);
     }
+    setUploading(false);
+  };
 
   return (
     <div className="bg-gray-100 mt-20">
+      {uploading || (loading && <Spinner />)}
       <div className="w-full text-white bg-main-color">
         <div
           x-data="{ open: false }"
@@ -109,9 +138,15 @@ const UserProfile = () => {
                   <div className="grid grid-cols-2">
                     <div className="px-4 py-2 font-semibold">Name</div>
                     {modify ? (
-                      <input type="text" className="rounded-lg" placeholder="Please Provide Your Name" value={name} onChange={(e)=>setName(e.target.value)}/>
+                      <input
+                        type="text"
+                        className="rounded-lg"
+                        placeholder="Please Provide Your Name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                      />
                     ) : (
-                      <div className="px-4 py-2">{user.Name}</div>
+                      <div className="px-4 py-2">{name}</div>
                     )}
                   </div>
 
@@ -119,7 +154,7 @@ const UserProfile = () => {
                     {/* <div className="px-4 py-2">Female</div> */}
                     <div className="px-4 py-2 font-semibold">Gender</div>
 
-                    {!modify && user.gender === "M" && (
+                    {!modify && gender === "M" && (
                       <div className="px-4 py-2">Male</div>
                     )}
                     {user.gender === "F" && (
@@ -128,19 +163,38 @@ const UserProfile = () => {
                     {user.gender === "O" && (
                       <div className="px-4 py-2">Other</div>
                     )}
-                   
                   </div>
                   <div className="grid grid-cols-2">
                     <div className="px-4 py-2 font-semibold">Contact No.</div>
-                    {
-                        modify ? <input type="tel" name="" id="" value={mobile} onChange={(e)=>setMobile(e.target.value)} /> : <div className="px-4 py-2">+91 {user.mobile}</div>
-                    }
+                    {modify ? (
+                      <input
+                        type="tel"
+                        className="rounded-lg"
+                        name=""
+                        id=""
+                        value={mobile}
+                        onChange={(e) => setMobile(e.target.value)}
+                      />
+                    ) : (
+                      <div className="px-4 py-2">+91 {mobile}</div>
+                    )}
                   </div>
                   <div className="grid grid-cols-2">
-                    <div className="px-4 py-2 font-semibold">Alternative Contact.</div>
-                    {
-                        modify ? <input type="tel" name="" id="" value={alt_mobile} onChange={(e)=>setAlt_mobile(e.target.value)} /> : <div className="px-4 py-2">+91 {user.mobile}</div>
-                    }
+                    <div className="px-4 py-2 font-semibold">
+                      Alternative Contact.
+                    </div>
+                    {modify ? (
+                      <input
+                        type="tel"
+                        className="rounded-lg"
+                        name=""
+                        id=""
+                        value={alt_mobile}
+                        onChange={(e) => setAlt_mobile(e.target.value)}
+                      />
+                    ) : (
+                      <div className="px-4 py-2">+91 {alt_mobile}</div>
+                    )}
                   </div>
                   <div className="grid grid-cols-2">
                     <div className="px-4 py-2 font-semibold">
@@ -161,25 +215,38 @@ const UserProfile = () => {
                   <div className="grid grid-cols-2">
                     <div className="px-4 py-2 font-semibold">Email.</div>
                     <div className="px-4 py-2">
-                   {
-                        modify ? <input type="text" value={email} onChange={(e)=>setEmail(e.target.value)} name="" id="" /> :
-                        <span
+                      <span
                         className="text-blue-800"
                         href="mailto:jane@example.com"
                       >
                         {user.email}
                       </span>
-                   }
                     </div>
                   </div>
                 </div>
               </div>
-         {
-            modify ? <button onClick={HandleUserUpdate} className="block w-full text-blue-800 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">Save</button> :
-            <button type="button" onClick={()=>setModify(true)} className="block w-full text-blue-800 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">
-                Edit Profile
-          </button>
-         }
+              {modify ? (
+                <button
+                  onClick={HandleUserUpdate}
+                  className="block w-full text-blue-800 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4"
+                >
+                  Save
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setModify(true)}
+                  className="block w-full text-blue-800 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4"
+                >
+                  Edit Profile
+                </button>
+              )}
+              <button
+                onClick={HandleLogout}
+                className="bg-green-200 py-1 px-5 font-bold rounded-lg hover:bg-green-600 hover:text-white"
+              >
+                Logout
+              </button>
             </div>
 
             <div className="my-4"></div>

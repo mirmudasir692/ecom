@@ -114,3 +114,10 @@ input:checked ~ span:last-child {
 }
 
 /* Modified from: https://github.com/mukulkant/Star-rating-using-pure-css */
+
+
+@media screen and (max-width:600px) {
+  .bg-image-login{
+    width: 100%;
+  }
+}

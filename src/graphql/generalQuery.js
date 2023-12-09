@@ -113,7 +113,6 @@ export const GETCARTLIST = gql`
           inStock
           image
           price
-          
         }
       }
       totalCost

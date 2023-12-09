@@ -1,6 +1,6 @@
 import { useMutation } from "@apollo/client"
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { DELETE_WISHITEM } from "../../graphql/mutation/mutation"
 
 function Product({ product }){
@@ -24,7 +24,7 @@ function Product({ product }){
     if(isDeleted){
         return null
     }
-    
+    const navigate = useNavigate()
 
     return (
         <>

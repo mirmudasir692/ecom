@@ -4,13 +4,9 @@ import store from "../../app/store";
 import { isAuthenticated, logout } from "../../features/Auth/AuthSlice";
 import { useState } from "react";
 function Header() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  const HandleLogout = () => {
-    dispatch(logout());
-    navigate("/");
-  };
+
+ 
   const is_auth = useSelector(isAuthenticated);
   return (
     <>
@@ -39,7 +35,7 @@ function Header() {
           </li>
 
           {/* this link tag based on the authentication of the user, if he authenticated then show logout button else show sign in */}
-          {!is_auth ? (
+          {!is_auth && (
             <li className="hover:bg-white hover:text-black  max-sm:px-2 rounded-md">
               <Link
                 className="hover:border-b-[2px] border-slate-950  max-sm:px-1 px-3 py-2"
@@ -48,8 +44,6 @@ function Header() {
                 Sign in
               </Link>
             </li>
-          ) : (
-            <button onClick={HandleLogout}>Logout</button>
           )}
         </ul>
       </header>

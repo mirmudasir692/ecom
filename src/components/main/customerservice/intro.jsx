@@ -3,7 +3,7 @@ function Intro(){
     return (
         <>
             <div className="mt-20 flex flex-col justify-center">
-            <div className="flex border flex-row border-gray-400 rounded-lg gap-10 p-10">
+            <div className="flex border flex-row border-gray-400 rounded-lg gap-10 p-10 max-sm:flex-col">
                 <img className="w-80 h-80 rounded-lg" src="/src/assets/customer.jpg" alt="" />
                 <p className="font-semibold text-gray-500 mt-auto mb-auto px-5">Discover a world of seamless shopping at our ecommerce website! Explore a curated selection of high-quality products, from fashion and electronics to home essentials. Enjoy a user-friendly experience, secure transactions, and swift delivery. Elevate your online shopping journey with us, where style meets convenience, and quality is a promise.</p>
             </div>

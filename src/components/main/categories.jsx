@@ -27,7 +27,7 @@ function Categories(){
   
            {categories && categories.map((category)=>(
              <div key={category.id}>
-             <p className="text-start text-3xl pb-1">Stationary</p>
+             <p className="text-start text-3xl pb-1">{category.name}</p>
              <Link to={`/products/${category.id}`}>
              <img className="h-96 w-full rounded-lg" src={`http://127.0.0.1:8000/media/${category.image}`} alt="" />
              </Link>
