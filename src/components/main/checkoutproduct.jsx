@@ -69,7 +69,7 @@ function CheckOutProduct() {
             <div className="px-10 border border-gray-400 rounded-md">
               <img
                 className="w-96 h-96"
-                src={product && `http://127.0.0.1:8000/media/${product.image}`}
+                src={product && `https://mudasir12345.pythonanywhere.com/media/${product.image}`}
                 alt=""
               />
             </div>
