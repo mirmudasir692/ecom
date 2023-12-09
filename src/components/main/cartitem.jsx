@@ -48,7 +48,7 @@ function CartItem({ item, RemoveCartItem, DecreaseTotalCost, IncreaseTotalCostWi
       <div className="flex w-full space-x-2 sm:space-x-4">
         <img
           className="h-20 w-20 flex-shrink-0 rounded object-contain outline-none dark:border-transparent sm:h-32 sm:w-32"
-          src={`http://127.0.0.1:8000/media/${item.product.image}`}
+          src={`https://mudasir12345.pythonanywhere.com/media/${item.product.image}`}
           alt="Nike Air Max 90"
         />
         <div className="flex w-full flex-col justify-between pb-4">
