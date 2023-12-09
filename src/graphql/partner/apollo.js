@@ -23,5 +23,5 @@ const createApolloClient = (uri) => {
   });
 };
 
-const client = createApolloClient("http://127.0.0.1:8000/products/");
+const client = createApolloClient("https://mudasir12345.pythonanywhere.com/products/");
 export default client
