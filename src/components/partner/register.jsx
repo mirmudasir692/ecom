@@ -54,7 +54,6 @@ function Register(){
         setName("")
         setEmail("")
         setMobile("")
-        setCategory('General')
         setLogo(null)
         navigate(-1)
         
@@ -101,16 +100,7 @@ function Register(){
                 <label for="mobile">Commercial Mobile</label>
                 <input type="tel" name="mobile" id="phone" className="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value={mobile} onChange={(e)=>setMobile(e.target.value)} placeholder="*****" required />
               </div>
-              <div className="md:col-span-5">
-                <label for="company_name">Choose Catagory</label>
-                <select type="text" placeholder="name" name="company_name" id="company_name" className="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value={category} onChange={(e)=>setCategory(e.target.value)}>
-                <option value="General" >General</option>
-                <option value="Cosmetic">Cosmetic</option>
-                <option value="Clothing">Clothing</option>
-                <option value="Stationary">Stationary</option>
-                <option value="Grocery">Grocery</option>
-                </select>
-              </div>
+             
             
 <div className="border border-dashed border-gray-500 relative mr-auto ml-auto w-52">
     <input type="file" className="cursor-pointer relative block opacity-0 w-96 h-full p-20 " onChange={SelectCompLogo} accept="image/png, image/jpeg,
