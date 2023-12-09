@@ -52,7 +52,7 @@ export const RefrehsAccessToken = () => async (dispatch, getState) => {
   const refresh_token = getState().auth.rest_refresh_token;
   try {
     const response = await axios.post(
-      "http://127.0.0.1:8000/accounts/refresh_token/",
+      "https://mudasir12345.pythonanywhere.com/accounts/refresh_token/",
       {
         refresh_token: refresh_token,
       }
