@@ -23,7 +23,7 @@ function Header() {
           </li>
           <li className="hover:bg-white hover:text-black max-sm:px-2 rounded-md">
             <Link
-              to="/customer_service"
+              to={is_auth ? "/customer_service" : "/login"}
               className="hover:border-b-[2px] border-slate-950 max-sm:px-1 px-3 py-2"
             >
               Customer service
