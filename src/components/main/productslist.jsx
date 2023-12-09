@@ -51,7 +51,7 @@ function CategoryProducts({ category }){
         </div>
         <div className="ml-10 mt-auto mb-auto">
           {hasNext && (
-              <Link to={`products/${category}`} className="text-xl font-bold bg-slate-500 px-6 py-3 rounded-lg text-white hover:bg-gray-400 hover:text-black">
+              <Link to={`products/${category.id}`} className="text-xl font-bold bg-slate-500 px-6 py-3 rounded-lg text-white hover:bg-gray-400 hover:text-black">
               More
           </Link>
           )}
