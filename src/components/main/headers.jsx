@@ -18,7 +18,7 @@ function Header() {
             <Link className=" border-slate-950 max-sm:px-1 px-3">
               <img
                 className="w-8 rounded-md relative bg-white"
-                src="/public/EcomLogo.svg"
+                src="https://saad-store.vercel.app/public/EcomLogo.svg"
                 alt="Logo"
               />
             </Link>
