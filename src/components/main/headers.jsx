@@ -14,7 +14,7 @@ function Header() {
     <>
       <header className="bg-slate-900 text-white w-screen fixed right-0 top-0 z-20 flex justify-around py-4 max-sm:flex-col max-sm:gap-2">
         <ul className="flex justify-center gap-10 max-sm:text-xs max-sm:gap-1 ml-10">
-          <li className="hover:text-black rounded-md h-auto grid pt-1">
+          <li className="hover:text-black rounded-md h-auto grid pt-1 max-sm:relative max-sm:right-10 max-sm:bottom-1">
             <Link className=" border-slate-950 max-sm:px-1 px-3">
               <img
                 className="w-8 rounded-md relative bg-white"
