@@ -28,7 +28,7 @@ function Header() {
             <Link
               to={is_auth ? "/orders" : "/login"}
               className=" border-slate-950 max-sm:px-1 px-3 py-2"
-              onClick={() => setSidebarvisible(false)}
+              
             >
               Orders
             </Link>
