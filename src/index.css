@@ -113,7 +113,6 @@ input:checked ~ span:last-child {
   color: #c59b08;
 }
 
-/* Modified from: https://github.com/mukulkant/Star-rating-using-pure-css */
 
 
 @media screen and (max-width:600px) {

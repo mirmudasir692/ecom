@@ -35,8 +35,8 @@ function Register(){
         }
         try{
             setLoading(true)
-            const response = await Axios.post("http://127.0.0.1:8000/accounts/register/",data)
-            console.log(response)
+            const response = await Axios.post("https://mudasir12345.pythonanywhere.com/accounts/register/",data)
+           
             setLoading(false)
             if(response.status === 200){
                 navigate("/login")
@@ -44,21 +44,21 @@ function Register(){
         }catch(error){
             setLoading(false)
             if(error.response && error.response.data){
-                console.log('Error data:', error.response.data);
+               
                 if(error.response.data.email){
-                    console.log(error.response.data.email[0])
+                   
                     setEmail(error.response.data.email[0])
                     setIsEmailValid(false)
                 }
                  if(error.response.data.password){
-                    console.log(error.response.data.password[0])
+                   
                     setPassError(error.response.data.password[0])
 
                 }
 
             }
             else{
-                console.log("Some went wrong ", error)
+              
             }
         }
     }

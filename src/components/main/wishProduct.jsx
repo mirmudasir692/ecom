@@ -33,7 +33,7 @@ function Product({ product }){
         <div className="relative border border-gray-400 rounded-lg p-2 w-80 product max-sm:mr-auto max-sm:ml-auto max-sm:w-full">
             <div className="relative">
          
-            <img className=" w-80 h-48 rounded-md ml-auto mr-auto" src={`http://127.0.0.1:8000/media/${product.image}`} alt="" />
+            <img className=" w-80 h-48 rounded-md ml-auto mr-auto" src={`https://mudasir12345.pythonanywhere.com/media/${product.image}`} alt="" />
             </div>
             <div className="flex flex-col text-start gap-3">
                 <p className="text-2xl text-gray-500">{product.title}</p>

@@ -3,7 +3,7 @@ import { RefrehsAccessToken, logout, restAuthToken } from "../features/Auth/Auth
 import store from "../app/store";
 import LogoutUser from "../features/Auth/LogoutUser";
 
-const baseURL = "http://127.0.0.1:8000/";
+const baseURL = "https://mudasir12345.pythonanywhere.com/";
 const AxiosInstance = axios.create({
   baseURL,
 });

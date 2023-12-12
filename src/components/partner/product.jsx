@@ -11,7 +11,7 @@ function Product(props) {
         <div>
           <img
             className="w-64 h-48 rounded-xl"
-            src={`http://127.0.0.1:8000/media/${product.image}`}
+            src={`https://mudasir12345.pythonanywhere.com/media/${product.image}`}
             alt=""
           />
         </div>

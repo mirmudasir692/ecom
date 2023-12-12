@@ -2,6 +2,7 @@ import { useState } from "react"
 import AxiosInstance from "../../Axios/AxiosInstance"
 import Spinner from "../banners/spinner"
 import BannerComp from "../banners/success"
+import { useNavigate } from "react-router-dom"
 
 function Register(){
     /*
@@ -11,11 +12,11 @@ function Register(){
    const [name,setName] = useState("")
    const [email,setEmail] = useState("")
    const [mobile,setMobile] = useState("")
-   const [category,setCategory] = useState('General')
    const [logo,setLogo] = useState(null)
    const [loading,setLoading] = useState(false)
    const [success,setSuccess] = useState(false)
    const [error,setError] = useState(false)
+    const navigate = useNavigate()
 
    // select the Image file
    const SelectCompLogo =(e)=>{
@@ -41,8 +42,8 @@ function Register(){
    }
 
    const RegisterPartner=async()=>{
-    setLoading(true)
     try{
+
       const response = await AxiosInstance.post('products/register/',data,{
         headers:{
           "Content-Type":'multipart/form-data'
@@ -53,8 +54,9 @@ function Register(){
         setName("")
         setEmail("")
         setMobile("")
-        setCategory('General')
         setLogo(null)
+        navigate(-1)
+        
       }
       setLoading(false)
     }catch(error){
@@ -98,7 +100,8 @@ function Register(){
                 <label for="mobile">Commercial Mobile</label>
                 <input type="tel" name="mobile" id="phone" className="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value={mobile} onChange={(e)=>setMobile(e.target.value)} placeholder="*****" required />
               </div>
-         
+
+             
             
 <div className="border border-dashed border-gray-500 relative mr-auto ml-auto w-52">
     <input type="file" className="cursor-pointer relative block opacity-0 w-96 h-full p-20 " onChange={SelectCompLogo} accept="image/png, image/jpeg,

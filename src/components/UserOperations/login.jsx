@@ -26,7 +26,7 @@ function Login(){
             "password":password
         }
         try{
-            const response = await Axios.post("http://127.0.0.1:8000/accounts/login/",data)
+            const response = await Axios.post("https://mudasir12345.pythonanywhere.com/accounts/login/",data)
             console.log(response.data)
             
         if(response.status === 200){
