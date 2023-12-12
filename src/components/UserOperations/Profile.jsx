@@ -73,7 +73,7 @@ const UserProfile = () => {
   return (
     <div className="bg-gray-100 mt-20">
       {uploading || (loading && <Spinner />)}
-      <div className="w-full text-white bg-main-color">
+      <div className={`w-full text-white bg-main-color ${loading ? "hidden" : 'block'}`}>
         <div
           x-data="{ open: false }"
           className="flex flex-col max-w-screen-xl px-4 mx-auto md:items-center md:justify-between md:flex-row md:px-6 lg:px-8"
