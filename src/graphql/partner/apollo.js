@@ -1,8 +1,14 @@
 // apollo.js
 
-import { ApolloClient, ApolloLink, InMemoryCache, createHttpLink } from "@apollo/client";
+import {
+  ApolloClient,
+  ApolloLink,
+  InMemoryCache,
+  createHttpLink,
+} from "@apollo/client";
 import { graphAuthToken } from "../../features/Auth/AuthSlice";
 import store from "../../app/store";
+import BaseEndUrl from "../../../config/config";
 
 const createApolloClient = (uri) => {
   const httpLink = createHttpLink({ uri });
@@ -23,5 +29,5 @@ const createApolloClient = (uri) => {
   });
 };
 
-const client = createApolloClient("https://mudasir12345.pythonanywhere.com/products/");
-export default client
+const client = createApolloClient(`${BaseEndUrl}products/`);
+export default client;

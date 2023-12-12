@@ -22,7 +22,7 @@ function SideBar() {
       )}
 
       <aside
-        className={`flex h-screen w-64 flex-col overflow-y-auto border-r bg-slate-900 px-5 py-8 fixed left-0 } z-20`}
+        className={`flex h-screen w-64 flex-col overflow-y-auto border-r bg-slate-900 px-5 py-8 fixed left-0 } z-20 max-sm:top-0 top-0`}
         style={{ display: sidebarvisible ? "block" : "none" }}
       >
         {/* 
@@ -44,6 +44,7 @@ function SideBar() {
               <Link
                 to={isAuth ? "/cart_list" : "/login"}
                 className="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-50 hover:text-gray-700"
+                onClick={()=>setSidebarvisible(false)}
                 href="#"
               >
                 <span>
@@ -54,7 +55,7 @@ function SideBar() {
               <Link
                 to={isAuth ? "/wishlist" : "/login"}
                 className="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
-                href="#"
+                onClick={()=>setSidebarvisible(false)}
               >
                 <span className="text-lg">
                   <i className="fa-regular fa-heart"></i>
@@ -64,18 +65,20 @@ function SideBar() {
             </div>
             <div className="space-y-3 ">
               <Link
-                to={isAuth ? "/orders" : "/login"}
+                to={isAuth ? "/customer_service" : "/login"}
                 className="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
+                onClick={()=>setSidebarvisible(false)}
+
               >
-                <span className="text-xs">
-                  <DvrIcon className="text-xs" />
+                <span className="text-md">
+                <i className="fa-solid fa-headphones"></i>
                 </span>
-                <span className="mx-2 text-sm font-medium">Orders</span>
+                <span className="mx-2 text-sm font-medium">Customer Support</span>
               </Link>
             {isAuth &&   <Link
                 to="/profile"
                 className="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
-                href="#"
+                onClick={()=>setSidebarvisible(false)}
               >
                <span><i className="fa-solid fa-user"></i></span>
                 <span className="mx-2 text-sm font-medium">My Profile</span>
@@ -87,19 +90,20 @@ function SideBar() {
                   <Link
                     to="/partner/shop/"
                     className="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
-                    href="#"
-                  >
+                    onClick={()=>setSidebarvisible(false)}
+                    >
                     <span>
                       <i class="fa-solid fa-shop"></i>
                     </span>
                     <span className="mx-2 text-sm font-medium">Your Shop</span>
+
                   </Link>
                 ) : (
                   <Link
                     to="partner/partner_intro"
                     className="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
-                    href="#"
-                  >
+                    onClick={()=>setSidebarvisible(false)}
+                    >
                     <span>
                       <i class="fa-regular fa-handshake"></i>
                     </span>

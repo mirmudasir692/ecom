@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import Axios from 'axios'
 import Spinner from "../banners/spinner"
+import BaseEndUrl from "../../../config/config"
 
 function Register(){
     // Intialize all the state variables here
@@ -35,7 +36,7 @@ function Register(){
         }
         try{
             setLoading(true)
-            const response = await Axios.post("https://mudasir12345.pythonanywhere.com/accounts/register/",data)
+            const response = await Axios.post(`${BaseEndUrl}accounts/register/`,data)
            
             setLoading(false)
             if(response.status === 200){

@@ -23,7 +23,7 @@ function Index(){
 
     return (
         <>
-        <div className="mt-20 flex flex-col gap-10">
+        <div className="mt-10 flex flex-col gap-10">
            {categories && categories.map((category)=>(
              <div key={category.id}>
              <CategoryProducts category={category} />

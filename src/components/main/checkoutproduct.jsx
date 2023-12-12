@@ -6,6 +6,8 @@ import BannerComp from "../banners/success";
 import ADD_TO_WISHLIST from "../../graphql/mutation/mutation";
 import Modal from "../banners/modal";
 import { AddToCart } from "../../api/cartlist/cartlist";
+import BaseEndUrl from "../../../config/config"
+
 
 function CheckOutProduct() {
   const { product_id } = useParams(); // product id
@@ -65,20 +67,20 @@ function CheckOutProduct() {
       )}
       <div className="mt-20">
         <div className="flex flex-row gap-10 max-sm:flex-col">
-          <div className="border-b border-gray-800 pb-10">
+          <div className="border-b border-gray-800 pb-10 ml-auto">
             <div className="px-10 border border-gray-400 rounded-md">
               <img
                 className="w-96 h-96"
-                src={product && `https://mudasir12345.pythonanywhere.com/media/${product.image}`}
+                src={product && `${BaseEndUrl}media/${product.image}`}
                 alt=""
               />
             </div>
             <div className="flex flex-col justify-center gap-5 mt-5">
-              <div className="flex flex-row justify-evenly">
+              <div className="flex flex-row justify-evenly gap-5">
                 <button
                   type="button"
                   onClick={() => HandleAddToCart(product_id)}
-                  className="border border-purple-900 px-10 py-3 font-extrabold rounded-md text-purple-900"
+                  className="border border-purple-900 px-10 py-3 font-extrabold rounded-md text-purple-900 max-sm:px-3"
                 >
                   <span className="pr-2">
                     <i className="fa-solid fa-cart-shopping"></i>
@@ -88,7 +90,7 @@ function CheckOutProduct() {
 
                 <button
                   onClick={AddToWishLater}
-                  className="border border-purple-900 px-10 py-3 font-extrabold rounded-md text-purple-900"
+                  className="border border-purple-900 px-10 py-3 font-extrabold rounded-md text-purple-900 max-sm:px-3"
                 >
                   <span className="px-2">
                     <i className="fa-solid fa-heart"></i>
@@ -98,7 +100,7 @@ function CheckOutProduct() {
               </div>
               <Link
                 to={`/order/${product && product.id}`}
-                className="border border-purple-900 px-10 py-3 font-extrabold rounded-md bg-purple-900 text-white w-1/2 ml-auto mr-auto"
+                className="border border-purple-900 px-10 py-3 font-extrabold rounded-md bg-purple-900 text-white w-1/2 ml-auto mr-auto max-sm:px-1"
               >
                 <span className="pr-2 ">
                   <i className="fa-solid fa-angles-right"></i>
@@ -107,8 +109,8 @@ function CheckOutProduct() {
               </Link>
             </div>
           </div>
-          <div className=" w-96">
-            <div className="flex flex-col justify-start text-left gap-5">
+          <div className=" w-96 max-sm:w-80">
+            <div className="flex flex-col justify-start text-left gap-5 max-sm:w-80">
               <div className="flex flex-col mr-auto p-5 border border-gray-400 w-full gap-2 rounded-lg">
                 <p className="font-extrabold text-gray-500">
                   {product && product.title}

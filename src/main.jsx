@@ -32,6 +32,8 @@ import { default as CustomerIntro } from "./components/main/customerservice/intr
 import { default as UserRegister } from "../src/components/UserOperations/register.jsx"
 import CartList from './components/main/cartlist.jsx'
 import UserProfile from './components/UserOperations/Profile.jsx'
+import SearchedProducts from './components/main/searchedproducts.jsx'
+
 
 
 
@@ -49,6 +51,7 @@ const routers=createBrowserRouter(createRoutesFromElements(
     <Route path='register' element={<UserRegister/>}/>
     <Route path='cart_list' element={<CartList/>}/>
     <Route path='profile' element={<UserProfile/>}/>
+    <Route path='search/:query' element={<SearchedProducts/>} />
     <Route path='customer_service' element={<CustomerService/>}>
       <Route path="" element={<CustomerIntro/>}/>
       <Route path="query" element={<Query/>}/>

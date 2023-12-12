@@ -5,6 +5,8 @@ import { OrderProduct } from "../../graphql/generalQuery"
 import AxiosInstance from '../../Axios/AxiosInstance'
 import Spinner from "../banners/spinner"
 import OrderConfirmed from "../banners/orderConfirmed"
+import BaseEndUrl from "../../../config/config"
+
 
 
 function PlaceOrder(){
@@ -107,7 +109,7 @@ const HandleFormSubmit=async(e)=>{
   <h1 className="text-3xl font-bold pb-5">Enter the details to place your order</h1>
         <div className=" ml-auto mr-auto flex w-3/4 max-sm:flex-col gap-10">
             <div className="flex flex-col bg-white p-10 rounded-lg">
-            <img className="w-80 h-96 rounded-lg" src={product && `https://mudasir12345.pythonanywhere.com/media/${product.image}`} alt="" />
+            <img className="w-80 h-96 rounded-lg" src={product && `${BaseEndUrl}media/${product.image}`} alt="" />
 
             <h3 className="text-2xl font-light p-3 mr-auto ml-auto">{product && product.title}</h3>
             <h2 className="font-bold text-gray-500 mr-auto ml-auto p-3">Total Price : {product && product.price}</h2>

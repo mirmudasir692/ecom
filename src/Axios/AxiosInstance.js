@@ -2,8 +2,10 @@ import axios from "axios";
 import { RefrehsAccessToken, logout, restAuthToken } from "../features/Auth/AuthSlice";
 import store from "../app/store";
 import LogoutUser from "../features/Auth/LogoutUser";
+import BaseEndUrl from "../../config/config"
 
-const baseURL = "https://mudasir12345.pythonanywhere.com/";
+
+const baseURL = BaseEndUrl;
 const AxiosInstance = axios.create({
   baseURL,
 });

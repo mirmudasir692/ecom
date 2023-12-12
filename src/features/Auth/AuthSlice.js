@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import BaseEndUrl from "../../../config/config"
+
 const initialState = {
   rest_auth_token: localStorage.getItem("rest_auth_token") || null,
   rest_refresh_token: localStorage.getItem("rest_refresh_token") || null,
@@ -52,7 +54,7 @@ export const RefrehsAccessToken = () => async (dispatch, getState) => {
   const refresh_token = getState().auth.rest_refresh_token;
   try {
     const response = await axios.post(
-      "https://mudasir12345.pythonanywhere.com/accounts/refresh_token/",
+      `${BaseEndUrl}accounts/refresh_token/`,
       {
         refresh_token: refresh_token,
       }

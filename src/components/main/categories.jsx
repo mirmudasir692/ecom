@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { GET_CATEGORIES } from "../../api/category/category"
 import { useQuery } from "@apollo/client"
+import BaseEndUrl from "../../../config/config"
 
 function Categories(){
     const [categories ,setCategories] = useState([])
@@ -29,7 +30,7 @@ function Categories(){
              <div key={category.id}>
              <p className="text-start text-3xl pb-1">{category.name}</p>
              <Link to={`/products/${category.id}`}>
-             <img className="h-96 w-full rounded-lg" src={`https://mudasir12345.pythonanywhere.com/media/${category.image}`} alt="" />
+             <img className="h-96 w-full rounded-lg" src={`${BaseEndUrl}media/${category.image}`} alt="" />
              </Link>
          </div>
            ))}

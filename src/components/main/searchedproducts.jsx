@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@apollo/client";
 import GetProducts from "../../graphql/generalQuery";
 import Pagination from "./pagination";
+import Query from "./customerservice/addquery";
 
-function Products() {
-  const category_id = useParams().category_id;
-  console.log("this is category ", category_id);
+function SearchedProducts() {
+  const { query } = useParams();
   const [products, setProducts] = useState([]);
   const [pages, setPages] = useState(null);
   const [hasNextBtn, setHasNextBtn] = useState(true);
@@ -15,11 +15,10 @@ function Products() {
   const [page, setPage] = useState(1);
   const { loading, error, data, refetch } = useQuery(GetProducts, {
     variables: {
-      category_id: category_id,
+      query: query,
       page: page,
     },
   });
-
   // when the page number would be changed it will be called
   useEffect(() => {
     const refetchData = async () => {
@@ -79,4 +78,4 @@ function Products() {
     </>
   );
 }
-export default Products;
+export default SearchedProducts;

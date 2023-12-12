@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import AxiosInstance from "../../Axios/AxiosInstance";
+import BaseEndUrl from "../../../config/config";
 
 function Product(props) {
   // pass the product from calling component\
@@ -11,7 +12,7 @@ function Product(props) {
         <div>
           <img
             className="w-64 h-48 rounded-xl"
-            src={`https://mudasir12345.pythonanywhere.com/media/${product.image}`}
+            src={`${BaseEndUrl}media/${product.image}`}
             alt=""
           />
         </div>
@@ -44,7 +45,7 @@ function Product(props) {
 
           <h6 className=" text-start">
             <span className="font-bold text-xl opacity-50">Category</span>{" "}
-            {product.category.name ? (
+            {product.category ? (
               <span className="text-black ">{product.category.name}</span>
             ) : (
               <span>none</span>

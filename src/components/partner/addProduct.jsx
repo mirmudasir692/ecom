@@ -23,6 +23,7 @@ function AddProduct(){
   useEffect(()=>{
     if(data){
       setCategories(data.getCategories)
+      setCategory_id(data.getCategories[0].id)
     }
    
 
