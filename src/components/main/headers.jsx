@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import store from "../../app/store";
 import { isAuthenticated, logout } from "../../features/Auth/AuthSlice";
 import { useState } from "react";
-import DvrIcon from "@mui/icons-material/Dvr";
 
 function Header() {
   const [query, setQuery] = useState("");
@@ -18,7 +17,7 @@ function Header() {
             <Link className=" border-slate-950 max-sm:px-1 px-3">
               <img
                 className="w-8 rounded-md relative bg-white"
-                src="/public/EcomLogo.svg"
+                src="https://saad-store.vercel.app/EcomLogo.svg "
                 alt="Logo"
               />
             </Link>
@@ -28,7 +27,6 @@ function Header() {
             <Link
               to={is_auth ? "/orders" : "/login"}
               className=" border-slate-950 max-sm:px-1 px-3 py-2"
-              onClick={() => setSidebarvisible(false)}
             >
               Orders
             </Link>
