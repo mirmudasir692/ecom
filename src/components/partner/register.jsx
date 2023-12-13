@@ -3,6 +3,8 @@ import AxiosInstance from "../../Axios/AxiosInstance"
 import Spinner from "../banners/spinner"
 import BannerComp from "../banners/success"
 import { useNavigate } from "react-router-dom"
+import { MakePartner } from "../../features/Auth/AuthSlice"
+import { useDispatch } from "react-redux"
 
 function Register(){
     /*
@@ -16,7 +18,8 @@ function Register(){
    const [loading,setLoading] = useState(false)
    const [success,setSuccess] = useState(false)
    const [error,setError] = useState(false)
-    const navigate = useNavigate()
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
    // select the Image file
    const SelectCompLogo =(e)=>{
@@ -55,7 +58,8 @@ function Register(){
         setEmail("")
         setMobile("")
         setLogo(null)
-        navigate(-1)
+        dispatch(MakePartner(response.data))
+        navigate("/")
         
       }
       setLoading(false)
