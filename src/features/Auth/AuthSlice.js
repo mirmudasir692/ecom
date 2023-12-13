@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import BaseEndUrl from "../../../config/config"
+import BaseEndUrl from "../../../config/config";
 
 const initialState = {
   rest_auth_token: localStorage.getItem("rest_auth_token") || null,
@@ -47,25 +47,26 @@ const AuthSlice = createSlice({
       localStorage.setItem("rest_auth_token", action.payload.access_token);
       localStorage.setItem("rest_refresh_token", action.payload.refresh_token);
     },
+    MakePartner: (state, action) => {
+      state.user = action.payload.user;
+      localStorage.setItem("user", JSON.stringify(action.payload.user));
+    },
   },
 });
 
 export const RefrehsAccessToken = () => async (dispatch, getState) => {
   const refresh_token = getState().auth.rest_refresh_token;
   try {
-    const response = await axios.post(
-      `${BaseEndUrl}accounts/refresh_token/`,
-      {
-        refresh_token: refresh_token,
-      }
-    );
+    const response = await axios.post(`${BaseEndUrl}accounts/refresh_token/`, {
+      refresh_token: refresh_token,
+    });
     dispatch(AuthSlice.actions.RotateTokens(response.data));
   } catch (error) {
     throw error;
   }
 };
 
-export const { login, logout } = AuthSlice.actions;
+export const { login, logout, MakePartner } = AuthSlice.actions;
 export const isAuthenticated = (state) => state.auth.is_auth;
 export const restAuthToken = (state) => state.auth.rest_auth_token;
 export const restRefreshToken = (state) => state.auth.rest_refresh_token;
