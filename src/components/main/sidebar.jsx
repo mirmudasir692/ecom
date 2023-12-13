@@ -6,6 +6,7 @@ import DvrIcon from "@mui/icons-material/Dvr";
 
 function SideBar() {
   const isAuth = useSelector(isAuthenticated);
+  
   // get the user from the auth slice
   const current_user = useSelector(user);
   const [sidebarvisible, setSidebarvisible] = useState(false); // for toggling the sidebar visibility
