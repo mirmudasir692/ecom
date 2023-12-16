@@ -80,7 +80,7 @@ export const RefrehsAccessToken = () => async (dispatch, getState) => {
   }
 };
 
-export const { login, logout, MakePartner } = AuthSlice.actions;
+export const { login, logout, MakePartner, RotateGraphqlTokens } = AuthSlice.actions;
 export const isAuthenticated = (state) => state.auth.is_auth;
 export const restAuthToken = (state) => state.auth.rest_auth_token;
 export const restRefreshToken = (state) => state.auth.rest_refresh_token;

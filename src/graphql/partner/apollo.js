@@ -1,94 +1,69 @@
-import {
-  ApolloClient,
-  ApolloLink,
-  InMemoryCache,
-  createHttpLink,
-  Observable,
-} from "@apollo/client";
+import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
+import { onError } from "@apollo/client/link/error";
 import { graphAuthToken } from "../../features/Auth/AuthSlice";
 import BaseEndUrl from "../../../config/config";
 import RefreshGraphToken from "../../features/Auth/refreshgraphql";
 import store from "../../app/store";
 
-const createApolloClient = (uri) => {
-  const httpLink = createHttpLink({ uri });
+const httpLink = createHttpLink({ uri: `${BaseEndUrl}products/` });
 
-  let refreshing = false; // Flag to track whether a refresh is in progress
+const authLink = setContext((_, { headers }) => {
+  const graphqlAuthToken = graphAuthToken(store.getState());
+  return {
+    headers: {
+      ...headers,
+      Authorization: graphqlAuthToken ? `JWT ${graphqlAuthToken}` : "",
+    },
+  };
+});
 
-  const authLink = new ApolloLink((operation, forward) => {
-    const graphqlAuthToken = graphAuthToken(store.getState());
+let isRefreshing = false;
 
-    operation.setContext({
-      headers: {
-        Authorization: graphqlAuthToken ? `JWT ${graphqlAuthToken}` : "",
-      },
-    });
-    return forward(operation);
-  });
+const errorLink = onError(({ operation, forward, graphQLErrors }) => {
+  console.log(graphQLErrors[0]?.message);
+  if (graphQLErrors && graphQLErrors[0]?.message === "Signature has expired") {
+    // Check if the operation has already been retried
+    if (!isRefreshing) {
+      isRefreshing = true;
+      console.log("Token expired. Attempting to refresh...");
 
-  const errorLink = new ApolloLink((operation, forward) => {
-    return new Observable((observer) => {
-      // Forward the operation and subscribe to the response
-      const subscription = forward(operation).subscribe({
-        next: async (response) => {
-          // Check for token expiration error
-          if (
-            response.errors &&
-            response.errors.some(
-              (error) => error && error.message === "Signature has expired"
-            )
-          ) {
-            if (!refreshing) {
-              refreshing = true; // Set the flag to true to prevent multiple refresh attempts
+      return RefreshGraphToken()
+        .then(() => {
+          const newToken = graphAuthToken(store.getState());
+          console.log("Token refresh successful. New token:", newToken);
 
-              console.log("Token expired. Attempting to refresh...");
-              try {
-                await RefreshGraphToken();
-                const newToken = graphAuthToken(store.getState());
-                console.log("Token refresh successful. New token:", newToken);
+          // Retry the original operation with the new token
+          const newHeaders = {
+            ...(operation.getContext()?.headers || {}), // Ensure getContext() is available
+            Authorization: newToken ? `JWT ${newToken}` : "",
+          };
 
-                // Create a new operation with the updated headers
-                const newOperation = {
-                  ...operation,
-                  setContext: {
-                    headers: {
-                      Authorization: newToken ? `JWT ${newToken}` : "",
-                    },
-                  },
-                };
+          const newOperation = {
+            ...operation,
+            setContext: (newContext) => ({
+              ...newContext,
+              headers: newHeaders,
+            }),
+          };
+          return forward(newOperation);
+        })
+        .catch((error) => {
+          console.error("Error refreshing token:", error);
+          // Handle the error, e.g., log the user out
+          throw error;
+        })
+        .finally(() => {
+          isRefreshing = false;
+        });
+    }
+  }
+});
 
-                // Retry the original operation with the new token
-                observer.next(await forward(newOperation));
-                observer.complete();
-              } catch (error) {
-                console.error("Error refreshing token:", error);
-                observer.error(error);
-              } finally {
-                refreshing = false; // Reset the flag after refresh is complete
-              }
-            }
-          } else {
-            // Return the response if the token doesn't need refreshing
-            observer.next(response);
-            observer.complete();
-          }
-        },
-        error: (error) => {
-          console.error("Error in errorLink:", error);
-          observer.error(error);
-        },
-      });
 
-      // Cleanup subscription on complete
-      return () => subscription.unsubscribe();
-    });
-  });
+const client = new ApolloClient({
+  link: authLink.concat(errorLink.concat(httpLink)),
+  cache: new InMemoryCache(),
+});
 
-  return new ApolloClient({
-    link: ApolloLink.from([authLink, errorLink, httpLink]),
-    cache: new InMemoryCache(),
-  });
-};
-
-const client = createApolloClient(`${BaseEndUrl}products/`);
 export default client;
