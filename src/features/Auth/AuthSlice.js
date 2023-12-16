@@ -7,6 +7,7 @@ const initialState = {
   rest_refresh_token: localStorage.getItem("rest_refresh_token") || null,
   is_auth: localStorage.getItem("is_auth") || false,
   graphql_jwt: localStorage.getItem("graphql_jwt") || null,
+  graphql_refresh_jwt: localStorage.getItem("graphql_refresh_jwt") || null,
 
   // We can only store the string data in the localstorage, So we have to get the object from the localstorage which we have stored as strings we need to parse it
 
@@ -29,6 +30,11 @@ const AuthSlice = createSlice({
       localStorage.setItem("user", JSON.stringify(action.payload.user));
       state.graphql_jwt = String(action.payload.graphql_jwt);
       localStorage.setItem("graphql_jwt", String(action.payload.graphql_jwt));
+      state.graphql_refresh_jwt = action.payload.graphql_refresh_jwt;
+      localStorage.setItem(
+        "graphql_refresh_jwt",
+        String(action.payload.graphql_refresh_jwt)
+      );
     },
     logout: (state) => {
       state.rest_auth_token = null;
@@ -40,6 +46,7 @@ const AuthSlice = createSlice({
       localStorage.removeItem("is_auth");
       localStorage.removeItem("user");
       localStorage.removeItem("graphql_jwt");
+      localStorage.removeItem("graphql_refresh_jwt");
     },
     RotateTokens: (state, action) => {
       state.rest_auth_token = action.payload.access_token;
@@ -51,11 +58,18 @@ const AuthSlice = createSlice({
       state.user = action.payload.user;
       localStorage.setItem("user", JSON.stringify(action.payload.user));
     },
+    RotateGraphqlTokens: (state, action) => {
+      (state.graphql_jwt = action.payload.graphql_jwt),
+        (state.graphql_refresh_jwt = action.payload.graphql_refresh_jwt);
+      localStorage.setItem("graphql_jwt", action.payload.token);
+      localStorage.setItem("graphql_refresh_jwt", action.payload.refreshToken);
+    },
   },
 });
 
 export const RefrehsAccessToken = () => async (dispatch, getState) => {
   const refresh_token = getState().auth.rest_refresh_token;
+  console.log("in authslice token is being refreshed");
   try {
     const response = await axios.post(`${BaseEndUrl}accounts/refresh_token/`, {
       refresh_token: refresh_token,
@@ -70,6 +84,12 @@ export const { login, logout, MakePartner } = AuthSlice.actions;
 export const isAuthenticated = (state) => state.auth.is_auth;
 export const restAuthToken = (state) => state.auth.rest_auth_token;
 export const restRefreshToken = (state) => state.auth.rest_refresh_token;
-export const graphAuthToken = (state) => state.auth.graphql_jwt;
+export const graphAuthToken = (state) => {
+  return state && state.auth ? state.auth.graphql_jwt : null;
+};
+export const graphRefreshToken = (state) => {
+  // Check if 'state' and 'state.auth' are defined before accessing 'state.auth.graphql_refresh_jwt'
+  return state && state.auth ? state.auth.graphql_refresh_jwt : null;
+};
 export const user = (state) => state.auth.user;
 export default AuthSlice.reducer;

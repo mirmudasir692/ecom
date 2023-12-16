@@ -8,10 +8,19 @@ const ADD_TO_WISHLIST = gql`
   }
 `;
 export const DELETE_WISHITEM = gql`
-mutation DeleteWishItem($product_id:ID!){
-    deleteWishedItem(productId:$product_id){
+  mutation DeleteWishItem($product_id: ID!) {
+    deleteWishedItem(productId: $product_id) {
       success
+    }
   }
-}
 `;
 export default ADD_TO_WISHLIST;
+
+export const Refresh_Token_Mutation = gql`
+  mutation RefreshToken($refreshToken: String!) {
+    refreshToken(refreshToken: $refreshToken) {
+      token
+      refreshToken
+    }
+  }
+`;

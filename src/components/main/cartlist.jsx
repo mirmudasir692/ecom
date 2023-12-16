@@ -37,9 +37,10 @@ function CartList(){
             console.log("an error has occured", error)
         }
         if(data){
-            console.log("this is data received ,", data.getCartList.totalCost)
+            console.log("this is data received ,", data)
             setItems(data.getCartList.cartItems)
             setTotal_Cost(data.getCartList.totalCost)
+
         }
     },[loading,data,error])
 

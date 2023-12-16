@@ -31,7 +31,6 @@ function Login() {
         `${BaseEndUrl}accounts/login/`,
         data
       );
-      console.log(response.data);
 
       if (response.status === 200) {
         // here we will store the data in the authSlice using dispatch

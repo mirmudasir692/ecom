@@ -1,9 +1,11 @@
 import axios from "axios";
-import { RefrehsAccessToken, logout, restAuthToken } from "../features/Auth/AuthSlice";
+import {
+  RefrehsAccessToken,
+  logout,
+  restAuthToken,
+} from "../features/Auth/AuthSlice";
+import BaseEndUrl from "../../config/config";
 import store from "../app/store";
-import LogoutUser from "../features/Auth/LogoutUser";
-import BaseEndUrl from "../../config/config"
-
 
 const baseURL = BaseEndUrl;
 const AxiosInstance = axios.create({
@@ -28,10 +30,10 @@ AxiosInstance.interceptors.response.use(
         await dispatch(RefrehsAccessToken());
         const newAuthToken = restAuthToken(store.getState());
         error.config.headers["Authorization"] = `Bearer ${newAuthToken}`;
-        return AxiosInstance(error.
-          config);
+        return AxiosInstance(error.config);
       } catch (refreshError) {
-        LogoutUser()
+        store.dispatch(logout())
+        console.log("logged out")
         throw refreshError;
       }
     }
