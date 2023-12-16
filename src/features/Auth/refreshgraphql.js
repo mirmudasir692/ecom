@@ -7,11 +7,11 @@ import store from "../../app/store";
 
 const RefreshGraphToken = async () => {
   try {
-    const refreshToken = graphRefreshToken(store.getState());
+    const refreshtoken = graphRefreshToken(store.getState());
     console.log("i am here", refreshToken);
     const { data } = await client.mutate({
       mutation: Refresh_Token_Mutation,
-      variables: { refreshToken },
+      variables: { refreshtoken },
     });
     console.log("new tokens", data);
   } catch (error) {
