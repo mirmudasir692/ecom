@@ -17,8 +17,8 @@ export const DELETE_WISHITEM = gql`
 export default ADD_TO_WISHLIST;
 
 export const Refresh_Token_Mutation = gql`
-  mutation RefreshToken($refreshtoken: String!) {
-    refreshToken(refreshToken: $refreshtoken) {
+  mutation RefreshToken($refreshToken: String!) {
+    refreshToken(refreshToken: $refreshToken) {
       token
       refreshToken
     }

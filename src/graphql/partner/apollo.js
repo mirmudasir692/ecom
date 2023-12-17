@@ -1,69 +1,90 @@
-import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
-import { setContext } from "@apollo/client/link/context";
+import {
+  ApolloClient,
+  ApolloLink,
+  InMemoryCache,
+  createHttpLink,
+} from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import { graphAuthToken } from "../../features/Auth/AuthSlice";
+import store from "../../app/store";
 import BaseEndUrl from "../../../config/config";
 import RefreshGraphToken from "../../features/Auth/refreshgraphql";
-import store from "../../app/store";
 
-const httpLink = createHttpLink({ uri: `${BaseEndUrl}products/` });
-
-const authLink = setContext((_, { headers }) => {
-  const graphqlAuthToken = graphAuthToken(store.getState());
-  return {
-    headers: {
-      ...headers,
-      Authorization: graphqlAuthToken ? `JWT ${graphqlAuthToken}` : "",
-    },
-  };
-});
-
+// Flag to track if token refresh is in progress
 let isRefreshing = false;
 
-const errorLink = onError(({ operation, forward, graphQLErrors }) => {
-  console.log(graphQLErrors[0]?.message);
-  if (graphQLErrors && graphQLErrors[0]?.message === "Signature has expired") {
-    // Check if the operation has already been retried
-    if (!isRefreshing) {
-      isRefreshing = true;
-      console.log("Token expired. Attempting to refresh...");
+const createApolloClient = (uri) => {
+  const httpLink = createHttpLink({ uri });
 
-      return RefreshGraphToken()
-        .then(() => {
-          const newToken = graphAuthToken(store.getState());
-          console.log("Token refresh successful. New token:", newToken);
+  const authLink = new ApolloLink((operation, forward) => {
+    const graphqlAuthToken = graphAuthToken(store.getState());
+    operation.setContext({
+      headers: {
+        Authorization: graphqlAuthToken ? `JWT ${graphqlAuthToken}` : "",
+      },
+    });
+    return forward(operation);
+  });
 
-          // Retry the original operation with the new token
-          const newHeaders = {
-            ...(operation.getContext()?.headers || {}), // Ensure getContext() is available
-            Authorization: newToken ? `JWT ${newToken}` : "",
-          };
+  const errorLink = onError(
+    async ({ graphQLErrors, operation, forward, response }) => {
+      if (graphQLErrors) {
+        for (let err of graphQLErrors) {
+          if (err.message === "Signature has expired") {
+            // Check if refresh is already in progress
+            if (isRefreshing) {
+              return;
+            }
 
-          const newOperation = {
-            ...operation,
-            setContext: (newContext) => ({
-              ...newContext,
-              headers: newHeaders,
-            }),
-          };
-          return forward(newOperation);
-        })
-        .catch((error) => {
-          console.error("Error refreshing token:", error);
-          // Handle the error, e.g., log the user out
-          throw error;
-        })
-        .finally(() => {
-          isRefreshing = false;
-        });
+            // Set flag to indicate refresh is in progress
+            isRefreshing = true;
+
+            try {
+              await RefreshGraphToken();
+              const newAuthToken = graphAuthToken(store.getState());
+              console.log("New Token:", newAuthToken);
+
+              const oldHeaders = operation.getContext().headers;
+
+              operation.setContext({
+                headers: {
+                  ...oldHeaders,
+                  Authorization: newAuthToken ? `JWT ${newAuthToken}` : "",
+                },
+              });
+
+              // Reset the flag after successful refresh
+              isRefreshing = false;
+
+              return forward(operation);
+            } catch (refreshError) {
+              console.error("Error refreshing token:", refreshError);
+
+              // Reset the flag in case of an error during refresh
+              isRefreshing = false;
+
+              // Handle the error as needed, e.g., log out the user
+              // or redirect to the login page
+              throw refreshError;
+            }
+          }
+        }
+
+        // If the error doesn't match the expected "Signature has expired" case,
+        // throw it to be handled by other error handling logic
+        console.error("GraphQL errors:", graphQLErrors);
+        console.error("Operation:", operation);
+        console.error("Response:", response);
+        throw graphQLErrors;
+      }
     }
-  }
-});
+  );
 
+  return new ApolloClient({
+    link: errorLink.concat(authLink).concat(httpLink),
+    cache: new InMemoryCache(),
+  });
+};
 
-const client = new ApolloClient({
-  link: authLink.concat(errorLink.concat(httpLink)),
-  cache: new InMemoryCache(),
-});
-
+const client = createApolloClient(`${BaseEndUrl}products/`);
 export default client;

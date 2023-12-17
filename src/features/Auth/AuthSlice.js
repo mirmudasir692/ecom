@@ -59,8 +59,8 @@ const AuthSlice = createSlice({
       localStorage.setItem("user", JSON.stringify(action.payload.user));
     },
     RotateGraphqlTokens: (state, action) => {
-      (state.graphql_jwt = action.payload.graphql_jwt),
-        (state.graphql_refresh_jwt = action.payload.graphql_refresh_jwt);
+      (state.graphql_jwt = action.payload.token),
+        (state.graphql_refresh_jwt = action.payload.refreshToken);
       localStorage.setItem("graphql_jwt", action.payload.token);
       localStorage.setItem("graphql_refresh_jwt", action.payload.refreshToken);
     },
@@ -80,7 +80,8 @@ export const RefrehsAccessToken = () => async (dispatch, getState) => {
   }
 };
 
-export const { login, logout, MakePartner, RotateGraphqlTokens } = AuthSlice.actions;
+export const { login, logout, MakePartner, RotateGraphqlTokens } =
+  AuthSlice.actions;
 export const isAuthenticated = (state) => state.auth.is_auth;
 export const restAuthToken = (state) => state.auth.rest_auth_token;
 export const restRefreshToken = (state) => state.auth.rest_refresh_token;
